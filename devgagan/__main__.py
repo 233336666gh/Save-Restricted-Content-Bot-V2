@@ -20,7 +20,8 @@ from devgagan.core.mongo.plans_db import check_and_remove_expired_users
 from aiojobs import create_scheduler
 
 # ----------------------------Bot-Start---------------------------- #
-
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
 # Function to schedule expiry checks
 async def schedule_expiry_check():
     scheduler = await create_scheduler()
@@ -55,14 +56,7 @@ async def devggn_boot():
 
 if __name__ == "__main__":
     # Ensure an event loop exists
-    try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError as e:
-        if "There is no current event loop" in str(e):
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        else:
-            raise
+   
 
     # Run the bot
     loop.run_until_complete(devggn_boot())
