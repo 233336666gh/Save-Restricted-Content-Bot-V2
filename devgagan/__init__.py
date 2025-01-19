@@ -20,8 +20,7 @@ from telethon.sync import TelegramClient
 from motor.motor_asyncio import AsyncIOMotorClient
 import time
 
-loop = asyncio.new_event_loop()
-asyncio.set_event_loop(loop)
+loop = asyncio.get_event_loop()
 
 logging.basicConfig(
     format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s",
