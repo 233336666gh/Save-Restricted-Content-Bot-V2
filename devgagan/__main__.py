@@ -21,14 +21,12 @@ from aiojobs import create_scheduler
 
 # ----------------------------Bot-Start---------------------------- #
 
-loop = asyncio.get_event_loop()
-
 # Function to schedule expiry checks
 async def schedule_expiry_check():
     scheduler = await create_scheduler()
     while True:
         await scheduler.spawn(check_and_remove_expired_users())
-        await asyncio.sleep(60)  # Check every hour
+        await asyncio.sleep(3600)  # Check every hour (3600 seconds)
         gc.collect()
 
 async def devggn_boot():
@@ -55,8 +53,18 @@ async def devggn_boot():
     await idle()
     print("Bot stopped...")
 
-
 if __name__ == "__main__":
+    # Ensure an event loop exists
+    try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError as e:
+        if "There is no current event loop" in str(e):
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        else:
+            raise
+
+    # Run the bot
     loop.run_until_complete(devggn_boot())
 
 # ------------------------------------------------------------------ #
